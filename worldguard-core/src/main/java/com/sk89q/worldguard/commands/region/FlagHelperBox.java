@@ -74,13 +74,15 @@ class FlagHelperBox extends PaginationBox {
                 return idx1 < idx2 ? -1 : 1;
             })
             .collect(Collectors.toList());
-    private static final int SIZE = FLAGS.size() == Flags.INBUILT_FLAGS.size() ? FLAGS.size() : FLAGS.size() + 1;
     private static final int PAD_PX_SIZE = 180;
     static final Set<Flag<?>> DANGER_ZONE = ImmutableSet.of(Flags.BUILD, Flags.PASSTHROUGH, Flags.BLOCK_PLACE, Flags.BLOCK_BREAK);
 
     private final World world;
     private final ProtectedRegion region;
     private final RegionPermissionModel perms;
+    private final List<Flag<?>> visibleFlags;
+    private final int builtInFlagCount;
+    private final boolean hasThirdPartyFlags;
     private boolean monoSpace;
 
     FlagHelperBox(World world, ProtectedRegion region, RegionPermissionModel perms) {
@@ -88,22 +90,31 @@ class FlagHelperBox extends PaginationBox {
         this.world = world;
         this.region = region;
         this.perms = perms;
+        this.visibleFlags = FlagVisibility.filter(FLAGS, perms, region);
+        this.builtInFlagCount = (int) visibleFlags.stream()
+                .filter(flag -> Flags.INBUILT_FLAGS.contains(flag.getName()))
+                .count();
+        this.hasThirdPartyFlags = builtInFlagCount < visibleFlags.size();
     }
 
     @Override
     public Component getComponent(int number) {
-        if (number == Flags.INBUILT_FLAGS.size()) {
+        if (visibleFlags.isEmpty()) {
+            return centerAndBorder(TextComponent.of("No editable flags available", TextColor.GRAY));
+        }
+        if (hasThirdPartyFlags && number == builtInFlagCount) {
             return centerAndBorder(TextComponent.of("Third-Party Flags", TextColor.AQUA));
-        } else if (number > Flags.INBUILT_FLAGS.size()) {
+        } else if (hasThirdPartyFlags && number > builtInFlagCount) {
             number -= 1;
         }
-        Flag<?> flag = FLAGS.get(number);
-        return createLine(flag, number >= Flags.INBUILT_FLAGS.size());
+        Flag<?> flag = visibleFlags.get(number);
+        return createLine(flag, number >= builtInFlagCount);
     }
 
     @Override
     public int getComponentsSize() {
-        return SIZE;
+        // Keep a single explanatory row instead of an empty pagination view.
+        return Math.max(1, visibleFlags.size() + (hasThirdPartyFlags ? 1 : 0));
     }
 
     private Component createLine(Flag<?> flag, boolean thirdParty) {
