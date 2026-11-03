@@ -123,9 +123,43 @@ public class RegionProtectionListener extends AbstractListener {
 
     static void formatAndSendDenyMessage(String what, LocalPlayer localPlayer, String message) {
         if (message == null || message.isEmpty()) return;
+        // Preserve the original action text in custom region messages.
+        // Only the built-in Russian message needs Russian grammatical forms.
+        String action = message.equals(Flags.DENY_MESSAGE.getDefault()) ? localizeDeniedAction(what) : what;
         message = WorldGuard.getInstance().getPlatform().getMatcher().replaceMacros(localPlayer, message);
         message = CommandUtils.replaceColorMacros(message);
-        localPlayer.printRaw(message.replace("%what%", what));
+        localPlayer.printRaw(message.replace("%what%", action));
+    }
+
+    private static String localizeDeniedAction(String action) {
+        return switch (action) {
+            case "place fire" -> "разжигать огонь";
+            case "use frostwalker" -> "использовать «Ледоход»";
+            case "place that block" -> "устанавливать блоки";
+            case "use dynamite" -> "использовать взрывчатку";
+            case "break that block" -> "ломать блоки";
+            case "use that" -> "взаимодействовать с объектом";
+            case "open that" -> "открывать объекты";
+            case "take that" -> "забирать предметы";
+            case "sleep" -> "спать";
+            case "use anchors" -> "использовать якоря возрождения";
+            case "use explosives" -> "использовать взрывчатку";
+            case "place vehicles" -> "размещать транспорт";
+            case "drop items" -> "выбрасывать предметы";
+            case "drop XP" -> "выбрасывать опыт";
+            case "use lingering potions" -> "использовать оседающие зелья";
+            case "place things" -> "размещать объекты";
+            case "break vehicles" -> "разрушать транспорт";
+            case "pick up items" -> "поднимать предметы";
+            case "break things" -> "разрушать объекты";
+            case "change that" -> "изменять объект";
+            case "ride that" -> "садиться на транспорт";
+            case "hit that" -> "атаковать сущность";
+            case "PvP" -> "сражаться с другими игроками";
+            case "damage that" -> "наносить урон";
+            case "harm that" -> "наносить вред";
+            default -> action;
+        };
     }
 
     /**
