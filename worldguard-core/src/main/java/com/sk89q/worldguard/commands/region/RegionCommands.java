@@ -134,7 +134,7 @@ public final class RegionCommands extends RegionCommandsBase {
     @Command(aliases = {"define", "def", "d", "create"},
              usage = "[-w <world>] <id> [<owner1> [<owner2> [<owners...>]]]",
              flags = "ngw:",
-             desc = "Defines a region",
+             desc = "Создать регион",
              min = 1)
     public void define(CommandContext args, Actor sender) throws CommandException {
         warnAboutSaveFailures(sender);
@@ -185,7 +185,7 @@ public final class RegionCommands extends RegionCommandsBase {
      */
     @Command(aliases = {"redefine", "update", "move"},
              usage = "[-w <world>] <id>",
-             desc = "Re-defines the shape of a region",
+             desc = "Изменить границы региона",
              flags = "gw:",
              min = 1, max = 1)
     public void redefine(CommandContext args, Actor sender) throws CommandException {
@@ -218,7 +218,7 @@ public final class RegionCommands extends RegionCommandsBase {
         final String description = String.format("Обновление региона '%s'", region.getId());
         AsyncCommandBuilder.wrap(task, sender)
                 .registerWithSupervisor(worldGuard.getSupervisor(), description)
-                .sendMessageAfterDelay("(Please wait... " + description + ")")
+                .sendMessageAfterDelay("(Подождите... " + description + ")")
                 .onSuccess((Component) null,
                         t -> {
                             sender.print(String.format("Границы региона '%s' успешно обновлены.", region.getId()));
@@ -242,7 +242,7 @@ public final class RegionCommands extends RegionCommandsBase {
      */
     @Command(aliases = {"claim"},
              usage = "<id>",
-             desc = "Claim a region",
+             desc = "Создать собственный регион",
              min = 1, max = 1)
     public void claim(CommandContext args, Actor sender) throws CommandException {
         warnAboutSaveFailures(sender);
@@ -342,7 +342,7 @@ public final class RegionCommands extends RegionCommandsBase {
      */
     @Command(aliases = {"select", "sel", "s"},
              usage = "[-w <world>] [id]",
-             desc = "Load a region as a WorldEdit selection",
+             desc = "Выделить границы региона в WorldEdit",
              min = 0, max = 1,
              flags = "w:")
     public void select(CommandContext args, Actor sender) throws CommandException {
@@ -382,7 +382,7 @@ public final class RegionCommands extends RegionCommandsBase {
     @Command(aliases = {"info", "i"},
              usage = "[id]",
              flags = "usw:",
-             desc = "Get information about a region",
+             desc = "Показать информацию о регионе",
              min = 0, max = 1)
     public void info(CommandContext args, Actor sender) throws CommandException {
         warnAboutSaveFailures(sender);
@@ -444,7 +444,7 @@ public final class RegionCommands extends RegionCommandsBase {
      */
     @Command(aliases = {"list"},
              usage = "[-w world] [-p owner [-n]] [-s] [-i filter] [page]",
-             desc = "Get a list of regions",
+             desc = "Показать список регионов",
              flags = "np:w:i:s",
              max = 1)
     public void list(CommandContext args, Actor sender) throws CommandException {
@@ -494,8 +494,8 @@ public final class RegionCommands extends RegionCommandsBase {
 
         AsyncCommandBuilder.wrap(task, sender)
                 .registerWithSupervisor(WorldGuard.getInstance().getSupervisor(), "Getting region list")
-                .sendMessageAfterDelay("(Please wait... fetching region list...)")
-                .onFailure("Failed to fetch region list", WorldGuard.getInstance().getExceptionConverter())
+                .sendMessageAfterDelay("(Получение списка регионов...)")
+                .onFailure("Не удалось получить список регионов", WorldGuard.getInstance().getExceptionConverter())
                 .buildAndExec(WorldGuard.getInstance().getExecutorService());
     }
 
@@ -509,7 +509,7 @@ public final class RegionCommands extends RegionCommandsBase {
     @Command(aliases = {"flag", "f"},
              usage = "<id> <flag> [-w world] [-g group] [value]",
              flags = "g:w:eh:",
-             desc = "Set flags",
+             desc = "Изменить флаг региона",
              min = 2)
     public void flag(CommandContext args, Actor sender) throws CommandException {
         warnAboutSaveFailures(sender);
@@ -651,7 +651,7 @@ public final class RegionCommands extends RegionCommandsBase {
     @Command(aliases = "flags",
              usage = "[-p <page>] [id]",
              flags = "p:w:",
-             desc = "View region flags",
+             desc = "Показать флаги региона",
              min = 0, max = 2)
     public void flagHelper(CommandContext args, Actor sender) throws CommandException {
         World world = checkWorld(args, sender, 'w'); // Get the world
@@ -693,7 +693,7 @@ public final class RegionCommands extends RegionCommandsBase {
                     return flagHelperBox.create(page);
                 }, sender)
                 .onSuccess((Component) null, sender::print)
-                .onFailure("Failed to get region flags", WorldGuard.getInstance().getExceptionConverter())
+                .onFailure("Не удалось получить флаги региона", WorldGuard.getInstance().getExceptionConverter())
                 .buildAndExec(WorldGuard.getInstance().getExecutorService());
     }
 
@@ -707,7 +707,7 @@ public final class RegionCommands extends RegionCommandsBase {
     @Command(aliases = {"setpriority", "priority", "pri"},
              usage = "<id> <priority>",
              flags = "w:",
-             desc = "Set the priority of a region",
+             desc = "Изменить приоритет региона",
              min = 2, max = 2)
     public void setPriority(CommandContext args, Actor sender) throws CommandException {
         warnAboutSaveFailures(sender);
@@ -740,7 +740,7 @@ public final class RegionCommands extends RegionCommandsBase {
     @Command(aliases = {"setparent", "parent", "par"},
              usage = "<id> [parent-id]",
              flags = "w:",
-             desc = "Set the parent of a region",
+             desc = "Назначить родительский регион",
              min = 1, max = 2)
     public void setParent(CommandContext args, Actor sender) throws CommandException {
         warnAboutSaveFailures(sender);
@@ -804,7 +804,7 @@ public final class RegionCommands extends RegionCommandsBase {
     @Command(aliases = {"remove", "delete", "del", "rem"},
              usage = "<id>",
              flags = "fuw:",
-             desc = "Remove a region",
+             desc = "Удалить регион",
              min = 1, max = 1)
     public void remove(CommandContext args, Actor sender) throws CommandException {
         warnAboutSaveFailures(sender);
@@ -852,7 +852,7 @@ public final class RegionCommands extends RegionCommandsBase {
      */
     @Command(aliases = {"load", "reload"},
             usage = "[world]",
-            desc = "Reload regions from file",
+            desc = "Загрузить регионы из хранилища",
             flags = "w:")
     public void load(CommandContext args, final Actor sender) throws CommandException {
         warnAboutSaveFailures(sender);
@@ -912,7 +912,7 @@ public final class RegionCommands extends RegionCommandsBase {
      */
     @Command(aliases = {"save", "write"},
             usage = "[world]",
-            desc = "Re-save regions to file",
+            desc = "Сохранить регионы в хранилище",
             flags = "w:")
     public void save(CommandContext args, final Actor sender) throws CommandException {
         warnAboutSaveFailures(sender);
@@ -973,7 +973,7 @@ public final class RegionCommands extends RegionCommandsBase {
      */
     @Command(aliases = {"migratedb"}, usage = "<from> <to>",
              flags = "y",
-             desc = "Migrate from one Protection Database to another.", min = 2, max = 2)
+             desc = "Перенести регионы между типами хранилищ", min = 2, max = 2)
     public void migrateDB(CommandContext args, Actor sender) throws CommandException {
         // Check permissions
         if (!getPermissionModel(sender).mayMigrateRegionStore()) {
@@ -984,20 +984,20 @@ public final class RegionCommands extends RegionCommandsBase {
         DriverType to = Enums.findFuzzyByValue(DriverType.class, args.getString(1));
 
         if (from == null) {
-            throw new CommandException("The value of 'from' is not a recognized type of region data database.");
+            throw new CommandException("Значение from не является известным типом хранилища регионов.");
         }
 
         if (to == null) {
-            throw new CommandException("The value of 'to' is not a recognized type of region region data database.");
+            throw new CommandException("Значение to не является известным типом хранилища регионов.");
         }
 
         if (from == to) {
-            throw new CommandException("It is not possible to migrate between the same types of region data databases.");
+            throw new CommandException("Нельзя переносить регионы между хранилищами одного типа.");
         }
 
         if (!args.hasFlag('y')) {
-            throw new CommandException("This command is potentially dangerous.\n" +
-                    "Please ensure you have made a backup of your data, and then re-enter the command with -y tacked on at the end to proceed.");
+            throw new CommandException("Эта команда потенциально опасна.\n" +
+                    "Сделайте резервную копию данных и повторите команду с параметром -y в конце.");
         }
 
         ConfigurationManager config = WorldGuard.getInstance().getPlatform().getGlobalStateManager();
@@ -1005,11 +1005,11 @@ public final class RegionCommands extends RegionCommandsBase {
         RegionDriver toDriver = config.regionStoreDriverMap.get(to);
 
         if (fromDriver == null) {
-            throw new CommandException("The driver specified as 'from' does not seem to be supported in your version of WorldGuard.");
+            throw new CommandException("Указанный исходный драйвер хранилища не поддерживается этой версией WorldGuard.");
         }
 
         if (toDriver == null) {
-            throw new CommandException("The driver specified as 'to' does not seem to be supported in your version of WorldGuard.");
+            throw new CommandException("Указанный целевой драйвер хранилища не поддерживается этой версией WorldGuard.");
         }
 
         DriverMigration migration = new DriverMigration(fromDriver, toDriver, WorldGuard.getInstance().getFlagRegistry());
@@ -1026,15 +1026,14 @@ public final class RegionCommands extends RegionCommandsBase {
 
         try {
             RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-            sender.print("Now performing migration... this may take a while.");
+            sender.print("Выполняется перенос данных...");
             container.migrate(migration);
             sender.print(
-                    "Migration complete! This only migrated the data. If you already changed your settings to use " +
-                    "the target driver, then WorldGuard is now using the new data. If not, you have to adjust your " +
-                    "configuration to use the new driver and then restart your server.");
+                    "Перенос данных завершён. Если в конфигурации уже указан новый драйвер, WorldGuard использует " +
+                    "перенесённые данные. В противном случае измените драйвер в настройках и перезапустите сервер.");
         } catch (MigrationException e) {
             log.log(Level.WARNING, "Failed to migrate", e);
-            throw new CommandException("Error encountered while migrating: " + e.getMessage());
+            throw new CommandException("Ошибка переноса данных: " + e.getMessage());
         } finally {
             if (minecraftLogger != null) {
                 minecraftLogger.removeHandler(handler);
@@ -1050,7 +1049,7 @@ public final class RegionCommands extends RegionCommandsBase {
      * @throws CommandException any error
      */
     @Command(aliases = {"migrateuuid"},
-            desc = "Migrate loaded databases to use UUIDs", max = 0)
+            desc = "Перенести данные регионов на UUID", max = 0)
     public void migrateUuid(CommandContext args, Actor sender) throws CommandException {
         // Check permissions
         if (!getPermissionModel(sender).mayMigrateRegionNames()) {
@@ -1073,12 +1072,12 @@ public final class RegionCommands extends RegionCommandsBase {
             RegionDriver driver = container.getDriver();
             UUIDMigration migration = new UUIDMigration(driver, WorldGuard.getInstance().getProfileService(), WorldGuard.getInstance().getFlagRegistry());
             migration.setKeepUnresolvedNames(config.keepUnresolvedNames);
-            sender.print("Now performing migration... this may take a while.");
+            sender.print("Выполняется перенос данных...");
             container.migrate(migration);
-            sender.print("Migration complete!");
+            sender.print("Перенос данных завершён!");
         } catch (MigrationException e) {
             log.log(Level.WARNING, "Failed to migrate", e);
-            throw new CommandException("Error encountered while migrating: " + e.getMessage());
+            throw new CommandException("Ошибка переноса данных: " + e.getMessage());
         } finally {
             if (minecraftLogger != null) {
                 minecraftLogger.removeHandler(handler);
@@ -1097,7 +1096,7 @@ public final class RegionCommands extends RegionCommandsBase {
     @Command(aliases = {"migrateheights"},
             usage = "[world]", max = 1,
             flags = "yw:",
-            desc = "Migrate regions from old height limits to new height limits")
+            desc = "Обновить высоту старых регионов")
     public void migrateHeights(CommandContext args, Actor sender) throws CommandException {
         // Check permissions
         if (!getPermissionModel(sender).mayMigrateRegionHeights()) {
@@ -1105,8 +1104,8 @@ public final class RegionCommands extends RegionCommandsBase {
         }
 
         if (!args.hasFlag('y')) {
-            throw new CommandException("This command is potentially dangerous.\n" +
-                    "Please ensure you have made a backup of your data, and then re-enter the command with -y tacked on at the end to proceed.");
+            throw new CommandException("Эта команда потенциально опасна.\n" +
+                    "Сделайте резервную копию данных и повторите команду с параметром -y в конце.");
         }
 
         World world = null;
@@ -1130,10 +1129,10 @@ public final class RegionCommands extends RegionCommandsBase {
             RegionDriver driver = container.getDriver();
             WorldHeightMigration migration = new WorldHeightMigration(driver, WorldGuard.getInstance().getFlagRegistry(), world);
             container.migrate(migration);
-            sender.print("Migration complete!");
+            sender.print("Перенос данных завершён!");
         } catch (MigrationException e) {
             log.log(Level.WARNING, "Failed to migrate", e);
-            throw new CommandException("Error encountered while migrating: " + e.getMessage());
+            throw new CommandException("Ошибка переноса данных: " + e.getMessage());
         } finally {
             if (minecraftLogger != null) {
                 minecraftLogger.removeHandler(handler);
@@ -1152,7 +1151,7 @@ public final class RegionCommands extends RegionCommandsBase {
     @Command(aliases = {"teleport", "tp"},
              usage = "[-w world] [-c|s] <id>",
              flags = "csw:",
-             desc = "Teleports you to the location associated with the region.",
+             desc = "Телепортироваться в регион",
              min = 1, max = 1)
     public void teleport(CommandContext args, Actor sender) throws CommandException {
         LocalPlayer player = worldGuard.checkPlayer(sender);
@@ -1216,7 +1215,7 @@ public final class RegionCommands extends RegionCommandsBase {
 
     @Command(aliases = {"toggle-bypass", "bypass"},
              usage = "[on|off]",
-             desc = "Toggle region bypassing, effectively ignoring bypass permissions.")
+             desc = "Включить или выключить обход защиты регионов")
     public void toggleBypass(CommandContext args, Actor sender) throws CommandException {
         LocalPlayer player = worldGuard.checkPlayer(sender);
         if (!player.hasPermission("worldguard.region.toggle-bypass")) {
