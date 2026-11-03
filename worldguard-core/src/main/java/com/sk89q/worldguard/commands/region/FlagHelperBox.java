@@ -347,7 +347,7 @@ class FlagHelperBox extends PaginationBox {
         Component valType;
         if (inherited) {
             if (currVal == defVal) {
-                valType = TextComponent.of( "Унаследованное (")
+                valType = TextComponent.of("Унаследованное (")
                         .append(TextComponent.of("по умолчанию")
                                 .decoration(TextDecoration.UNDERLINED, true))
                         .append(TextComponent.of(")"));
@@ -356,10 +356,9 @@ class FlagHelperBox extends PaginationBox {
             }
         } else {
             if (currVal == defVal) {
-                valType = TextComponent.empty()
-                        .append(TextComponent.of("Значение")
-                                .decoration(TextDecoration.UNDERLINED, true))
-                        .append(TextComponent.of(")"));
+                valType = TextComponent.of("Значение ")
+                        .append(TextComponent.of("по умолчанию")
+                                .decoration(TextDecoration.UNDERLINED, true));
             } else {
                 valType = null;
             }
