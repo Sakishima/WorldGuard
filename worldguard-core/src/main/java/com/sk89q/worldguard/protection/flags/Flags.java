@@ -222,27 +222,27 @@ public final class Flags {
      */
     @Deprecated
     public static final StringFlag DENY_MESSAGE = register(new StringFlag("deny-message",
-            LegacyComponentSerializer.INSTANCE.serialize(TextComponent.of("").append(TextComponent.of("Hey!",
+            LegacyComponentSerializer.INSTANCE.serialize(TextComponent.of("").append(TextComponent.of("Запрещено",
                     TextColor.RED, Sets.newHashSet(TextDecoration.BOLD)))
-                    .append(TextComponent.of(" Sorry, but you can't %what% here.", TextColor.GRAY)))));
+                    .append(TextComponent.of(" %what% в этом регионе.", TextColor.GRAY)))));
     /**
      * @deprecated The type of this flag will change from a StringFlag to a ComponentFlag to support JSON text
      *              in a future release. If you depend on the type of this flag, take proper precaution for future breakage.
      */
     @Deprecated
     public static final StringFlag ENTRY_DENY_MESSAGE = register(new StringFlag("entry-deny-message",
-            LegacyComponentSerializer.INSTANCE.serialize(TextComponent.of("").append(TextComponent.of("Hey!",
+            LegacyComponentSerializer.INSTANCE.serialize(TextComponent.of("").append(TextComponent.of("Внимание!",
                     TextColor.RED, Sets.newHashSet(TextDecoration.BOLD)))
-                    .append(TextComponent.of(" You are not permitted to enter this area.", TextColor.GRAY)))));
+                    .append(TextComponent.of(" Вход в этот регион запрещён.", TextColor.GRAY)))));
     /**
      * @deprecated The type of this flag will change from a StringFlag to a ComponentFlag to support JSON text
      *              in a future release. If you depend on the type of this flag, take proper precaution for future breakage.
      */
     @Deprecated
     public static final StringFlag EXIT_DENY_MESSAGE = register(new StringFlag("exit-deny-message",
-            LegacyComponentSerializer.INSTANCE.serialize(TextComponent.of("").append(TextComponent.of("Hey!",
+            LegacyComponentSerializer.INSTANCE.serialize(TextComponent.of("").append(TextComponent.of("Внимание!",
                     TextColor.RED, Sets.newHashSet(TextDecoration.BOLD)))
-                    .append(TextComponent.of(" You are not permitted to leave this area.", TextColor.GRAY)))));
+                    .append(TextComponent.of(" Выход из этого региона запрещён.", TextColor.GRAY)))));
 
     private Flags() {
     }
