@@ -132,7 +132,12 @@ public class RegionProtectionListener extends AbstractListener {
     }
 
     private static String localizeDeniedAction(String action) {
+        if (action.startsWith("use /")) {
+            return "использовать команду " + action.substring(4);
+        }
+
         return switch (action) {
+            case "chat" -> "писать в чат";
             case "place fire" -> "разжигать огонь";
             case "use frostwalker" -> "использовать «Ледоход»";
             case "place that block" -> "устанавливать блоки";
@@ -600,7 +605,7 @@ public class RegionProtectionListener extends AbstractListener {
                     long now = System.currentTimeMillis();
                     Long lastTime = WGMetadata.getIfPresent(player, DISEMBARK_MESSAGE_KEY, Long.class);
                     if (lastTime == null || now - lastTime >= LAST_MESSAGE_DELAY) {
-                        player.sendMessage("" + ChatColor.GOLD + "Don't disembark here!" + ChatColor.GRAY + " You can't get back on.");
+                        player.sendMessage("" + ChatColor.GOLD + "Не сходите здесь с транспорта!" + ChatColor.GRAY + " Вы не сможете сесть обратно.");
                         WGMetadata.put(player, DISEMBARK_MESSAGE_KEY, now);
                     }
 
