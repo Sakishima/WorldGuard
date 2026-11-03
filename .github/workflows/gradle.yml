@@ -4,6 +4,7 @@ on:
     branches:
       - 'master'
       - 'version/*'
+      - 'sakishima/26.2'
   pull_request:
   merge_group:
 
