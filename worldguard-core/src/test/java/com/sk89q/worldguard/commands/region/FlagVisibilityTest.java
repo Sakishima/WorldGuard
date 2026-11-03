@@ -110,6 +110,14 @@ class FlagVisibilityTest {
     }
 
     @Test
+    void administratorsKeepTheFullList() {
+        RegionPermissionModel permissions = new RegionPermissionModel(new TestPlayer("admin"));
+        List<Flag<?>> flags = Arrays.asList(Flags.PVP, Flags.BUILD, Flags.GREET_MESSAGE);
+
+        assertEquals(flags, FlagVisibility.filter(flags, permissions, region));
+    }
+
+    @Test
     void handlesNoAvailableFlags() {
         RegionPermissionModel permissions = permissions("worldguard.region.flag.regions.plot");
 
