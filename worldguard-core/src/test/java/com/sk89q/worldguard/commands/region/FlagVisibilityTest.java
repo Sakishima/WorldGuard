@@ -118,6 +118,31 @@ class FlagVisibilityTest {
     }
 
     @Test
+    void reevaluatesVisibilityAfterPermissionChanges() {
+        Set<String> grants = new HashSet<>(Arrays.asList(
+                "worldguard.region.flag.regions.plot",
+                "worldguard.region.flag.flags.pvp.allow.plot"
+        ));
+        TestPlayer sender = new TestPlayer("builder") {
+            @Override
+            public boolean hasPermission(String permission) {
+                return grants.contains(permission);
+            }
+        };
+        RegionPermissionModel permissions = new RegionPermissionModel(sender);
+        List<Flag<?>> flags = Arrays.asList(Flags.PVP, Flags.BUILD, Flags.GREET_MESSAGE);
+
+        assertEquals(Collections.singletonList(Flags.PVP),
+                FlagVisibility.filter(flags, permissions, region));
+
+        grants.remove("worldguard.region.flag.flags.pvp.allow.plot");
+        grants.add("worldguard.region.flag.flags.greeting.unset.plot");
+
+        assertEquals(Collections.singletonList(Flags.GREET_MESSAGE),
+                FlagVisibility.filter(flags, permissions, region));
+    }
+
+    @Test
     void handlesNoAvailableFlags() {
         RegionPermissionModel permissions = permissions("worldguard.region.flag.regions.plot");
 
