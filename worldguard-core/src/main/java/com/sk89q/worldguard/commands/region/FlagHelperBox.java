@@ -320,10 +320,10 @@ class FlagHelperBox extends PaginationBox {
     // Only the visible labels are translated. Commands always use original flag values.
     private String formatChoice(Object choice) {
         if (choice == StateFlag.State.ALLOW) {
-            return "Разрешить";
+            return "Разр";
         }
         if (choice == StateFlag.State.DENY) {
-            return "Запретить";
+            return "Запр";
         }
         if (Boolean.TRUE.equals(choice)) {
             return "Да";
