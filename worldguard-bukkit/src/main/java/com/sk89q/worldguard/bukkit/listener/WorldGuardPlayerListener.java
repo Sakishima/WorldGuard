@@ -109,7 +109,7 @@ public class WorldGuardPlayerListener extends AbstractListener {
 
         if (cfg.activityHaltToggle) {
             player.sendMessage(ChatColor.YELLOW
-                    + "Intensive server activity has been HALTED.");
+                    + "Ресурсоёмкие процессы сервера временно остановлены.");
 
             int removed = 0;
 
@@ -128,7 +128,7 @@ public class WorldGuardPlayerListener extends AbstractListener {
 
         if (wcfg.fireSpreadDisableToggle) {
             player.sendMessage(ChatColor.YELLOW
-                    + "Fire spread is currently globally disabled for this world.");
+                    + "Распространение огня в этом мире временно отключено.");
         }
 
         Events.fire(new ProcessPlayerEvent(player));
@@ -221,7 +221,7 @@ public class WorldGuardPlayerListener extends AbstractListener {
             ItemStack heldItem = player.getInventory().getItem(slot);
             if (heldItem != null && heldItem.getAmount() < 0) {
                 player.getInventory().setItem(slot, null);
-                player.sendMessage(ChatColor.RED + "Infinite stack removed.");
+                player.sendMessage(ChatColor.RED + "Недопустимая стопка предметов удалена.");
             }
         }
     }
@@ -252,7 +252,7 @@ public class WorldGuardPlayerListener extends AbstractListener {
                 ItemStack heldItem = player.getInventory().getItem(slot);
                 if (heldItem != null && heldItem.getAmount() < 0) {
                     player.getInventory().setItem(slot, null);
-                    player.sendMessage(ChatColor.RED + "Infinite stack in slot #" + slot + " removed.");
+                    player.sendMessage(ChatColor.RED + "Недопустимая стопка предметов в слоте №" + slot + " удалена.");
                 }
             }
         }
@@ -264,7 +264,7 @@ public class WorldGuardPlayerListener extends AbstractListener {
                 ApplicableRegionSet set = WorldGuard.getInstance().getPlatform().getRegionContainer().createQuery()
                         .getApplicableRegions(BukkitAdapter.adapt(block.getLocation()), RegionQuery.QueryOption.SORT);
                 if (set.size() > 0) {
-                    player.sendMessage(ChatColor.YELLOW + "Can you build? " + (set.testState(localPlayer, Flags.BUILD) ? "Yes" : "No"));
+                    player.sendMessage(ChatColor.YELLOW + "Можно строить? " + (set.testState(localPlayer, Flags.BUILD) ? "Да" : "Нет"));
 
                     StringBuilder str = new StringBuilder();
                     for (Iterator<ProtectedRegion> it = set.iterator(); it.hasNext();) {
@@ -274,9 +274,9 @@ public class WorldGuardPlayerListener extends AbstractListener {
                         }
                     }
 
-                    localPlayer.print("Applicable regions: " + str);
+                    localPlayer.print("Действующие регионы: " + str);
                 } else {
-                    localPlayer.print("WorldGuard: No defined regions here!");
+                    localPlayer.print("WorldGuard: здесь нет регионов!");
                 }
 
                 event.setUseItemInHand(Event.Result.DENY);
@@ -343,7 +343,7 @@ public class WorldGuardPlayerListener extends AbstractListener {
             ItemStack heldItem = player.getInventory().getItem(newSlot);
             if (heldItem != null && heldItem.getAmount() < 0) {
                 player.getInventory().setItem(newSlot, null);
-                player.sendMessage(ChatColor.RED + "Infinite stack removed.");
+                player.sendMessage(ChatColor.RED + "Недопустимая стопка предметов удалена.");
             }
         }
     }
@@ -438,7 +438,7 @@ public class WorldGuardPlayerListener extends AbstractListener {
 
         if (cfg.blockInGameOp) {
             if (opPattern.matcher(event.getMessage()).matches()) {
-                player.sendMessage(ChatColor.RED + "/op and /deop can only be used in console (as set by a WG setting).");
+                player.sendMessage(ChatColor.RED + "Команды /op и /deop разрешены только из консоли сервера.");
                 event.setCancelled(true);
                 return;
             }
